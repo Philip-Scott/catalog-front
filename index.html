@@ -52,53 +52,54 @@
 						const EVENT = 
 							`<article class="6u 12u$(xsmall) work-item">
 								<a href="{2}" class="image fit thumb"><img src="{2}" alt="" /></a>
-								<h3>{0}</h3>
+								<h3 id='event-{3}'>{0}</h3>
 								<p>{1}</p>
 							</article>`;	
 
-							html = "";
-							
-							events = [
-								{
-										"_id": "5a10bd5ecda79f2890925974",
-										"categoria": "Concierto",
-										"artista": "Enrique Bunbury",
-										"nombre": "Ex. Tour 17-18",
-										"descripcion": "Tour del nuevo disco Expectativas",
-										"auditorio": "Telmex",
-										"fecha": "2018-03-11 20:52:00",
-										"poster": "http://s1.ticketm.net/tm/es-mx/dam/a/6d8/e6662dea-1a60-4146-8c05-c2107236a6d8_560851_CUSTOM.jpg",
-										"estatus": 1
-								},
-								{
-										"_id": "5a11f8aa2798c51e8ef4f593",
-										"categoria": "Concierto",
-										"artista": "Timbiriche",
-										"nombre": "Timbiriche Recargado",
-										"descripcion": "Las presentaciones de Timbiriche han resultado un verdadero éxito que ha roto con todos los récords de los conciertos pop.",
-										"auditorio": "Auditorio Telmex",
-										"fecha": "2018-03-2 22:15:00",
-										"poster": "http://s1.ticketm.net/tm/es-mx/dam/a/d7a/61ecf373-4eaa-42d1-b910-6d2882797d7a_555561_CUSTOM.jpg",
-										"estatus": 1
-								},
-								{
-										"_id": "5a12086a322f3d2e3d8a6bc7",
-										"categoria": "Concierto",
-										"artista": "Bruno Mars Reload",
-										"nombre": "24k Magic world tour 2018",
-										"descripcion": "Conciertaso de nuestro Kalimba pero de Estados Unidos.",
-										"auditorio": "Estadio Chivas",
-										"fecha": "2019-02-5 21:00:00",
-										"poster": "http://s1.ticketm.net/tm/es-mx/dam/a/f38/6b4ce569-2e0d-490b-8eb4-af5a69d81f38_433341_CUSTOM.jpg",
-										"estatus": 1
-								}
-							];
+						html = "";
+						
+						events = [
+							{
+									"_id": "5a10bd5ecda79f2890925974",
+									"categoria": "Concierto",
+									"artista": "Enrique Bunbury",
+									"nombre": "Ex. Tour 17-18",
+									"descripcion": "Tour del nuevo disco Expectativas",
+									"auditorio": "Telmex",
+									"fecha": "2018-03-11 20:52:00",
+									"poster": "http://s1.ticketm.net/tm/es-mx/dam/a/6d8/e6662dea-1a60-4146-8c05-c2107236a6d8_560851_CUSTOM.jpg",
+									"estatus": 1
+							},
+							{
+									"_id": "5a11f8aa2798c51e8ef4f593",
+									"categoria": "Concierto",
+									"artista": "Timbiriche",
+									"nombre": "Timbiriche Recargado",
+									"descripcion": "Las presentaciones de Timbiriche han resultado un verdadero éxito que ha roto con todos los récords de los conciertos pop.",
+									"auditorio": "Auditorio Telmex",
+									"fecha": "2018-03-2 22:15:00",
+									"poster": "http://s1.ticketm.net/tm/es-mx/dam/a/d7a/61ecf373-4eaa-42d1-b910-6d2882797d7a_555561_CUSTOM.jpg",
+									"estatus": 1
+							},
+							{
+									"_id": "5a12086a322f3d2e3d8a6bc7",
+									"categoria": "Concierto",
+									"artista": "Bruno Mars Reload",
+									"nombre": "24k Magic world tour 2018",
+									"descripcion": "Conciertaso de nuestro Kalimba pero de Estados Unidos.",
+									"auditorio": "Estadio Chivas",
+									"fecha": "2019-02-5 21:00:00",
+									"poster": "http://s1.ticketm.net/tm/es-mx/dam/a/f38/6b4ce569-2e0d-490b-8eb4-af5a69d81f38_433341_CUSTOM.jpg",
+									"estatus": 1
+							}
+						];
 
-							events.map ((event) => {
-								html += String.format (EVENT, event.nombre, event.descripcion, event.poster);
-							});
+						id = 0;
+						events.map ((event) => {
+							html += String.format (EVENT, event.nombre, event.descripcion, event.poster, id);
+						});
 
-							get ("catalog").innerHTML = html;
+						get ("catalog").innerHTML = html;
 					</script>
 			</div>
 
