@@ -3,16 +3,11 @@ import { InMemoryDbService } from 'angular-in-memory-web-api';
 export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     const heroes = [
-      { id: 11, name: 'Mr. Nice' },
-      { id: 12, name: 'Narco' },
-      { id: 13, name: 'Bombasto' },
-      { id: 14, name: 'Celeritas' },
-      { id: 15, name: 'Magneta' },
-      { id: 16, name: 'RubberMan' },
-      { id: 17, name: 'Dynama' },
-      { id: 18, name: 'Dr IQ' },
-      { id: 19, name: 'Magma' },
-      { id: 20, name: 'Tornado' }
+      { id: 11, name: 'Mr. Nice', poster: 'https://images.unsplash.com/photo-1466495227171-d05d7e3ac2b3?auto=format&fit=crop&w=2001&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D' },
+      { id: 12, name: 'Narco', poster: 'https://images.unsplash.com/photo-1466495227171-d05d7e3ac2b3?auto=format&fit=crop&w=2001&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D' },
+      { id: 13, name: 'Bombasto', poster: 'https://images.unsplash.com/photo-1466495227171-d05d7e3ac2b3?auto=format&fit=crop&w=2001&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D' },
+      { id: 14, name: 'Celeritas', poster: 'https://images.unsplash.com/photo-1466495227171-d05d7e3ac2b3?auto=format&fit=crop&w=2001&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D' },
+      { id: 15, name: 'Magneta', poster: 'https://images.unsplash.com/photo-1466495227171-d05d7e3ac2b3?auto=format&fit=crop&w=2001&q=60&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D' },
     ];
     return {heroes};
   }
