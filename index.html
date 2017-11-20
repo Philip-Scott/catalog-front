@@ -7,13 +7,14 @@
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<script src="assets/js/libphilip.js"></script>
+		<script src="https://cdn.auth0.com/js/auth0/8.10.1/auth0.min.js"></script>
+		
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
 	<body id="top">
 		<!-- Header -->
 			<header id="header">
 				<div class="inner">
-					<a href="#" class="image avatar"><img src="images/avatar.jpg" alt="" /></a>
 					<h1><strong>Untitled Project Name</strong>, a super simple<br />
 					and responsive site to buy your<br />
 					tickets. <br />
@@ -25,80 +26,89 @@
 			<div id="main">
 				<!-- One -->
 					<section id="one">
-						<header class="major">
-							<h2>Ipsum lorem dolor aliquam ante commodo<br />
-							magna sed accumsan arcu neque.</h2>
-						</header>
-						<p>Accumsan orci faucibus id eu lorem semper. Eu ac iaculis ac nunc nisi lorem vulputate lorem neque cubilia ac in adipiscing in curae lobortis tortor primis integer massa adipiscing id nisi accumsan pellentesque commodo blandit enim arcu non at amet id arcu magna. Accumsan orci faucibus id eu lorem semper nunc nisi lorem vulputate lorem neque cubilia.</p>
-						<ul class="actions">
-							<li><a href="#" class="button">Learn More</a></li>
-						</ul>
+							<div class="row">
+									<div class="12u 12u$(small)">
+											<form method="post" action="">
+													<div class="row uniform 50%">
+															<div class="6u 12u$(xsmall)"><input type="text" name="name" id="name" placeholder="Event" /></div> 
+															<li style="list-style: none"><input type="submit" onclick="searchEvent()" value="Search" /></li>
+													</div>
+											</form>
+									</div>
+							</div>
+								<script>                        
+										function searchEvent() {
+											var busqueda = document.getElementById("name").value;
+
+											if (busqueda === "") {
+												window.location.replace("");
+											} else {
+												var url = "?search=" + busqueda;
+												//console.log (url)
+												window.location.replace(url);
+											}
+											
+										}
+								</script> 
+								<div id="demo">
+								</div>
 					</section>
+                    
 
 				<!-- Two -->
 					<section id="two">
-						<h2>Recent Work</h2>
+						<h2>Upcoming Events</h2>
 						<div class="row" id="catalog">
-							<article class="6u 12u$(xsmall) work-item">
-								<a href="images/fulls/01.jpg" class="image fit thumb"><img src="images/thumbs/01.jpg" alt="" /></a>
-								<h3>Magna sed consequat tempus</h3>
-								<p>Lorem ipsum dolor sit amet nisl sed nullam feugiat.</p>
-							</article>
 						</div>
-						
 					</section>
-
 					<script>
 						const EVENT = 
 							`<article class="6u 12u$(xsmall) work-item">
+								<span class="inner-article">
 								<a href="{2}" class="image fit thumb"><img src="{2}" alt="" /></a>
-								<h3>{0}</h3>
+								<id style="display: none">{5}</id>
+								<h3 id='event-{3}'>{0} : {4}</h3>
 								<p>{1}</p>
-							</article>`;	
+								</span>
+							</article>`;
 
-							html = "";
-							
-							events = [
-								{
-										"_id": "5a10bd5ecda79f2890925974",
-										"categoria": "Concierto",
-										"artista": "Enrique Bunbury",
-										"nombre": "Ex. Tour 17-18",
-										"descripcion": "Tour del nuevo disco Expectativas",
-										"auditorio": "Telmex",
-										"fecha": "2018-03-11 20:52:00",
-										"poster": "http://s1.ticketm.net/tm/es-mx/dam/a/6d8/e6662dea-1a60-4146-8c05-c2107236a6d8_560851_CUSTOM.jpg",
-										"estatus": 1
-								},
-								{
-										"_id": "5a11f8aa2798c51e8ef4f593",
-										"categoria": "Concierto",
-										"artista": "Timbiriche",
-										"nombre": "Timbiriche Recargado",
-										"descripcion": "Las presentaciones de Timbiriche han resultado un verdadero éxito que ha roto con todos los récords de los conciertos pop.",
-										"auditorio": "Auditorio Telmex",
-										"fecha": "2018-03-2 22:15:00",
-										"poster": "http://s1.ticketm.net/tm/es-mx/dam/a/d7a/61ecf373-4eaa-42d1-b910-6d2882797d7a_555561_CUSTOM.jpg",
-										"estatus": 1
-								},
-								{
-										"_id": "5a12086a322f3d2e3d8a6bc7",
-										"categoria": "Concierto",
-										"artista": "Bruno Mars Reload",
-										"nombre": "24k Magic world tour 2018",
-										"descripcion": "Conciertaso de nuestro Kalimba pero de Estados Unidos.",
-										"auditorio": "Estadio Chivas",
-										"fecha": "2019-02-5 21:00:00",
-										"poster": "http://s1.ticketm.net/tm/es-mx/dam/a/f38/6b4ce569-2e0d-490b-8eb4-af5a69d81f38_433341_CUSTOM.jpg",
-										"estatus": 1
-								}
-							];
+						html = "";
 
-							events.map ((event) => {
-								html += String.format (EVENT, event.nombre, event.descripcion, event.poster);
-							});
+						var query = window.location.search.substring(1);
+						var qs = parse_query_string(query);
+						console.log (qs);
 
-							get ("catalog").innerHTML = html;
+						if (qs.search !== undefined) {
+							fetch(`http://localhost:8080/evento/${qs.search}`, {
+									method: 'GET',
+							}).then(res => res.json()
+							).then(e => {
+								html += String.format (EVENT, e.nombre, e.descripcion, e.poster, 1, e.fecha.split (" ")[0], e._id);
+								
+								get ("catalog").innerHTML = html;
+								makeIdEditable ("event-1");
+								init ("#two");
+							}).catch( err => {
+								html = "<h4>No results found</h4>"
+								get ("catalog").innerHTML = html;
+							})
+						} else {
+							id = 0;
+							fetch(`http://localhost:8080/eventos/`, {
+								method: 'GET',
+							}).then(res => res.json()
+							).then(events => {
+								events = events.filter (e => e.estatus === 1);
+								events.forEach ((e) => {
+									html += String.format (EVENT, e.nombre, e.descripcion, e.poster, id, e.fecha.split (" ")[0], e._id);
+								});
+
+								get ("catalog").innerHTML = html;
+								init ("#two");
+							}).catch( err => {
+								console.log(err);
+							})  
+						}
 					</script>
 			</div>
 
@@ -106,13 +116,10 @@
 			<footer id="footer">
 				<div class="inner">
 					<ul class="icons">
-						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-						<li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
-						<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
-						<li><a href="#" class="icon fa-envelope-o"><span class="label">Email</span></a></li>
+						<li><a href="https://github.com/Philip-Scott/catalog-front" class="icon fa-github"><span class="label">Github</span></a></li>
 					</ul>
 					<ul class="copyright">
-						<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+						<li><a id="login-button" href="http://html5up.net">Logout:</a></li>
 					</ul>
 				</div>
 			</footer>
@@ -122,8 +129,8 @@
 			<script src="assets/js/jquery.poptrox.min.js"></script>
 			<script src="assets/js/skel.min.js"></script>
 			<script src="assets/js/util.js"></script>
+		<script src="assets/js/auth.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="assets/js/main.js"></script>
-
 	</body>
 </html>
