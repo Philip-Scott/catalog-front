@@ -7,6 +7,7 @@
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="/assets/css/main.css" />
 		<script src="/assets/js/libphilip.js"></script>
+		<script src="/assets/js/jquery.min.js"></script>
 		<script src="https://cdn.auth0.com/js/auth0/8.10.1/auth0.min.js"></script>
 		
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
@@ -51,7 +52,7 @@
 								</div>
 							</form>
 							<ul class="actions">
-								<li><input type="submit" onclick="createNewEvent ()" value="Save" /></li>
+								<li><input type="submit" onclick="editorAction ()" value="Save" /></li>
 							</ul>
 						</div>
 					</div>
@@ -64,24 +65,46 @@
 			}, 500);
 				var query = window.location.search.substring(1);
 				var qs = parse_query_string(query);
+				id = qs.id;
+				clicked_again = false;
+				if (id != undefined) {
+					get ("title").innerHTML = "Edit | <a id='delete'>Delete</a>";
+					$('#delete').bind("click",function(){
+							get("delete").innerHTML = "Click me again to delete";
+							if (clicked_again) {
+								fetch(`http://localhost:8080/eliminar/${id}`, {
+										method: 'DELETE',
+								})
 
-				if (qs.id != undefined) {
-					get ("title").innerHTML = "Edit";
+								get ("three").innerHTML = "<h1>Object Deleted</h1>"
+							}
+							clicked_again = true;
+					});
 
-					fetch(`http://localhost:8080/evento-id/${qs.id}`, {
+					console.log ("valid?");
+
+					fetch(`http://localhost:8080/eventoid/${id}`, {
 							method: 'GET',
 					}).then(res => res.json()
 					).then(e => {
-						html += String.format (EVENT, e.nombre, e.descripcion, e.poster, 1, e.fecha.split (" ")[0], e._id);
+						console.log (e);
+						get("categoria").value = e.categoria;
+						get("nombre").value = e.nombre;
+						get("descripcion").value = e.descripcion;
+						get("auditorio").value = e.auditorio;
+					  get("poster").value = e.poster;
+						get("fecha").value = e.fecha;
+						get("artista").value = e.artista;
+						get("precio").value = e.precio;
+						get("capacidad").value = e.capacidad;
 						
-						get ("catalog").innerHTML = html;
-						init ("#two");
+						var jsonString= JSON.stringify(e);
+						// TODO: Fill data 
 					}).catch( err => {
-						html = "<h4>No results found</h4>"
-						get ("catalog").innerHTML = html;
+						html = "<h4>Invalid ID</h4>"
+						get ("three").innerHTML = html;
 					})
 				}
-
 			</script>
 
 		<!-- Footer -->
@@ -97,7 +120,7 @@
 			</footer>
 
 		<!-- Scripts -->
-			<script src="/assets/js/jquery.min.js"></script>
+			
 			<script src="/assets/js/jquery.poptrox.min.js"></script>
 			<script src="/assets/js/skel.min.js"></script>
 			<script src="/assets/js/util.js"></script>
