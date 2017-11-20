@@ -12,7 +12,6 @@ window.addEventListener('load', function() {
 
     loginBtn.addEventListener('click', function(e) {
         e.preventDefault();
-
         if (isAuthenticated ()) {
             logout ();
         } else {
@@ -34,9 +33,6 @@ window.addEventListener('load', function() {
                 console.log (authResult.idToken);
             } else if (err) {
                 console.log(err);
-                alert(
-                    'Error: ' + err.error + '. Check the console for further details.'
-                );
             }
             displayButtons();
         });
