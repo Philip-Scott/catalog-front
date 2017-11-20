@@ -1,10 +1,12 @@
+ADMIN = "google-oauth2|116970085465259483479";
+
 window.addEventListener('load', function() {
     var webAuth = new auth0.WebAuth({
         domain: 'philip-scott.auth0.com',
         clientID: 'JBb8WYmHWz50x0s266AgdZhK8p34fplk',
         responseType: 'token id_token',
         audience: 'https://philip-scott.auth0.com/userinfo',
-        scope: 'openid',
+        scope: 'openid profile email',
         redirectUri: window.location.href
     });
 
@@ -59,6 +61,22 @@ window.addEventListener('load', function() {
     function isAuthenticated() {
         var expiresAt = JSON.parse(localStorage.getItem('expires_at'));
         return new Date().getTime() < expiresAt;
+    }
+
+    var userProfile;
+    handleAdmin = function handleAdmin() {
+      if (!userProfile) {
+        var accessToken = localStorage.getItem('access_token');
+        console.log ("Getting profile");
+        webAuth.client.userInfo(accessToken, function(err, profile) {
+            userProfile = profile;
+            
+            if (profile.sub != ADMIN) {
+                get("top").innerHTML = "<h1>Admin Only</h1><h2>You are not authorized to access this page</h2>";    
+            }
+        });
+      } else {
+      }
     }
 
     function displayButtons() {

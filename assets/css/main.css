@@ -3119,6 +3119,7 @@
 	height: 500px;
 	display: block;
 	border: 1px solid lightgray;
+	border-radius: 9px;
 }
 
 .inner-article h3, .inner-article p {

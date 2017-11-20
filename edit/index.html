@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Strata by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="/assets/css/main.css" />
+		<script src="/assets/js/libphilip.js"></script>
+		<script src="/assets/js/jquery.min.js"></script>
+		<script src="https://cdn.auth0.com/js/auth0/8.10.1/auth0.min.js"></script>
+		
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body id="top">
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<h1><strong>Untitled Project Name</strong>, a super simple<br />
+					and responsive site to buy your<br />
+					tickets. <br />
+					Created by <a href="#">Untitled team name</a>.</h1>
+				</div>
+			</header>
+
+		<!-- Main -->
+			<div id="main">
+				<!-- One -->
+				<section id="three">
+					<h2 id="title">Create</h2>
+					<div class="row">
+						<div class="8u 12u$(small)">
+							<form method="post" action="#">
+								<div class="row uniform 50%" id="fourm">									
+									<div class="6u 12u$(xsmall)"><input type="text" name="name" id="nombre" placeholder="Nombre del Evento" /></div>
+									<div class="6u 12u$(xsmall)">
+										<select id="categoria">
+											<option value="null">Categoria</option>
+											<option value="Concierto">Concierto</option>
+											<option value="Teatro">Teatro</option>
+											<option value="Opera">Opera</option>
+											<option value="Ballet">Ballet</option>
+										</select>
+									</div>
+									<div class="12u$ 12u$(xsmall)"><input type="text" name="artista" id="artista" placeholder="Artista" /></div>
+									<div class="12u$ 12u$(xsmall)"><input type="text" name="auditorio" id="auditorio" placeholder="Auditorio" /></div>
+									<div class="12u$ 12u$(xsmall)"><input type="text" name="poster" id="poster" placeholder="Poster: [http://...]" /></div>
+									<div class="12u$ 12u$(xsmall)"><input type="text" name="fecha" id="fecha" placeholder="Fecha" /></div>
+									<div class="12u$ 12u$(xsmall)"><input type="text" name="precio" id="precio" placeholder="Precio" /></div>
+									<div class="12u$ 12u$(xsmall)"><input type="text" name="capacidad" id="capacidad" placeholder="Capacidad" /></div>
+									<div class="12u$"><textarea name="descripcion" id="descripcion" placeholder="Descripción" rows="4"></textarea></div>
+								</div>
+							</form>
+							<ul class="actions">
+								<li><input type="submit" onclick="editorAction ()" value="Save" /></li>
+							</ul>
+						</div>
+					</div>
+				</section>
+			</div>
+
+			<script>
+				setTimeout(function(){
+					handleAdmin ();
+			}, 500);
+				var query = window.location.search.substring(1);
+				var qs = parse_query_string(query);
+				id = qs.id;
+				clicked_again = false;
+				if (id != undefined) {
+					get ("title").innerHTML = "Edit | <a id='delete'>Delete</a>";
+					$('#delete').bind("click",function(){
+							get("delete").innerHTML = "Click me again to delete";
+							if (clicked_again) {
+								fetch(`http://localhost:8080/eliminar/${id}`, {
+										method: 'DELETE',
+								})
+
+								get ("three").innerHTML = "<h1>Object Deleted</h1>"
+							}
+							clicked_again = true;
+					});
+
+					console.log ("valid?");
+
+					fetch(`http://localhost:8080/eventoid/${id}`, {
+							method: 'GET',
+					}).then(res => res.json()
+					).then(e => {
+						console.log (e);
+						get("categoria").value = e.categoria;
+						get("nombre").value = e.nombre;
+						get("descripcion").value = e.descripcion;
+						get("auditorio").value = e.auditorio;
+					  get("poster").value = e.poster;
+						get("fecha").value = e.fecha;
+						get("artista").value = e.artista;
+						get("precio").value = e.precio;
+						get("capacidad").value = e.capacidad;
+						
+						var jsonString= JSON.stringify(e);
+						// TODO: Fill data 
+					}).catch( err => {
+						html = "<h4>Invalid ID</h4>"
+						get ("three").innerHTML = html;
+					})
+				}
+			</script>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<ul class="icons">
+						<li><a href="https://github.com/Philip-Scott/catalog-front" class="icon fa-github"><span class="label">Github</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li><a id="login-button" href="http://html5up.net">Logout:</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			
+			<script src="/assets/js/jquery.poptrox.min.js"></script>
+			<script src="/assets/js/skel.min.js"></script>
+			<script src="/assets/js/util.js"></script>
+		<script src="/assets/js/auth.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/main.js"></script>
+	</body>
+</html>
