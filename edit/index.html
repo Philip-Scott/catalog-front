@@ -25,95 +25,64 @@
 		<!-- Main -->
 			<div id="main">
 				<!-- One -->
-					<section id="one">
-							<div class="row">
-									<div class="12u 12u$(small)">
-											<form method="post" action="">
-													<div class="row uniform 50%">
-															<div class="6u 12u$(xsmall)"><input type="text" name="name" id="name" placeholder="Event" /></div> 
-															<li style="list-style: none"><input type="submit" onclick="searchEvent()" value="Search" /></li>
-													</div>
-											</form>
+				<section id="three">
+					<h2 id="title">Create</h2>
+					<div class="row">
+						<div class="8u 12u$(small)">
+							<form method="post" action="#">
+								<div class="row uniform 50%" id="fourm">									
+									<div class="6u 12u$(xsmall)"><input type="text" name="name" id="nombre" placeholder="Nombre del Evento" /></div>
+									<div class="6u 12u$(xsmall)">
+										<select id="categoria">
+											<option value="null">Categoria</option>
+											<option value="Concierto">Concierto</option>
+											<option value="Teatro">Teatro</option>
+											<option value="Opera">Opera</option>
+											<option value="Ballet">Ballet</option>
+										</select>
 									</div>
-							</div>
-								<script>                        
-										function searchEvent() {
-											var busqueda = document.getElementById("name").value;
-
-											if (busqueda === "") {
-												window.location.replace("");
-											} else {
-												var url = "?search=" + busqueda;
-												//console.log (url)
-												window.location.replace(url);
-											}
-											
-										}
-								</script> 
-								<div id="demo">
+									<div class="12u$ 12u$(xsmall)"><input type="text" name="artista" id="artista" placeholder="Artista" /></div>
+									<div class="12u$ 12u$(xsmall)"><input type="text" name="auditorio" id="auditorio" placeholder="Auditorio" /></div>
+									<div class="12u$ 12u$(xsmall)"><input type="text" name="poster" id="poster" placeholder="Poster: [http://...]" /></div>
+									<div class="12u$ 12u$(xsmall)"><input type="text" name="fecha" id="fecha" placeholder="Fecha" /></div>
+									<div class="12u$ 12u$(xsmall)"><input type="text" name="precio" id="precio" placeholder="Precio" /></div>
+									<div class="12u$ 12u$(xsmall)"><input type="text" name="capacidad" id="capacidad" placeholder="Capacidad" /></div>
+									<div class="12u$"><textarea name="descripcion" id="descripcion" placeholder="Descripción" rows="4"></textarea></div>
 								</div>
-					</section>
-                    
-
-				<!-- Two -->
-					<section id="two">
-						<h2>Upcoming Events</h2>
-						<div class="row" id="catalog">
+							</form>
+							<ul class="actions">
+								<li><input type="submit" onclick="createNewEvent ()" value="Save" /></li>
+							</ul>
 						</div>
-					</section>
-					<script>
-						const EVENT = 
-							`<article class="6u 12u$(xsmall) work-item">
-								<span class="inner-article">
-								<a href="{2}" class="image fit thumb"><img src="{2}" alt="" /></a>
-								<id style="display: none">{5}</id>
-								<h3 id='event-{3}'>{0} : {4}</h3>
-								<p>{1}</p>
-								</span>
-							</article>`;
-
-						html = "";
-
-						var query = window.location.search.substring(1);
-						var qs = parse_query_string(query);
-						console.log (qs);
-
-						if (qs.search !== undefined) {
-							fetch(`http://localhost:8080/filtrar/${qs.search}`, {
-									method: 'GET',
-							}).then(res => res.json()
-							).then(events => {
-								id = 0;
-								events = events.filter (e => e.estatus === 1);
-								events.forEach ((e) => {
-									html += String.format (EVENT, e.nombre, e.descripcion, e.poster, id, e.fecha.split (" ")[0], e._id);
-								});
-
-								get ("catalog").innerHTML = html;
-								init ("#two");
-							}).catch( err => {
-								html = "<h4>No results found</h4>";
-								get ("catalog").innerHTML = html;
-							})
-						} else {
-							id = 0;
-							fetch(`http://localhost:8080/eventos/`, {
-								method: 'GET',
-							}).then(res => res.json()
-							).then(events => {
-								events = events.filter (e => e.estatus === 1);
-								events.forEach ((e) => {
-									html += String.format (EVENT, e.nombre, e.descripcion, e.poster, id, e.fecha.split (" ")[0], e._id);
-								});
-
-								get ("catalog").innerHTML = html;
-								init ("#two");
-							}).catch( err => {
-								console.log(err);
-							})  
-						}
-					</script>
+					</div>
+				</section>
 			</div>
+
+			<script>
+				setTimeout(function(){
+					handleAdmin ();
+			}, 500);
+				var query = window.location.search.substring(1);
+				var qs = parse_query_string(query);
+
+				if (qs.id != undefined) {
+					get ("title").innerHTML = "Edit";
+
+					fetch(`http://localhost:8080/evento-id/${qs.id}`, {
+							method: 'GET',
+					}).then(res => res.json()
+					).then(e => {
+						html += String.format (EVENT, e.nombre, e.descripcion, e.poster, 1, e.fecha.split (" ")[0], e._id);
+						
+						get ("catalog").innerHTML = html;
+						init ("#two");
+					}).catch( err => {
+						html = "<h4>No results found</h4>"
+						get ("catalog").innerHTML = html;
+					})
+				}
+
+			</script>
 
 		<!-- Footer -->
 			<footer id="footer">
@@ -134,6 +103,6 @@
 			<script src="/assets/js/util.js"></script>
 		<script src="/assets/js/auth.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="/assets/js/main.js"></script>
+			<script src="assets/main.js"></script>
 	</body>
 </html>

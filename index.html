@@ -7,8 +7,8 @@
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<script src="assets/js/libphilip.js"></script>
-		<script src="https://cdn.auth0.com/js/auth0/8.10.1/auth0.min.js"></script>
-		
+		<script src="https://cdn.auth0.com/js/auth0/8.10.1/auth0.min.js"></script>		
+		<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">				
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
 	<body id="top">
@@ -86,7 +86,6 @@
 								html += String.format (EVENT, e.nombre, e.descripcion, e.poster, 1, e.fecha.split (" ")[0], e._id);
 								
 								get ("catalog").innerHTML = html;
-								makeIdEditable ("event-1");
 								init ("#two");
 							}).catch( err => {
 								html = "<h4>No results found</h4>"
