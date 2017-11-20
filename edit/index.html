@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Strata by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="/assets/css/main.css" />
+		<script src="/assets/js/libphilip.js"></script>
+		<script src="https://cdn.auth0.com/js/auth0/8.10.1/auth0.min.js"></script>
+		
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+	</head>
+	<body id="top">
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<h1><strong>Untitled Project Name</strong>, a super simple<br />
+					and responsive site to buy your<br />
+					tickets. <br />
+					Created by <a href="#">Untitled team name</a>.</h1>
+				</div>
+			</header>
+
+		<!-- Main -->
+			<div id="main">
+				<!-- One -->
+					<section id="one">
+							<div class="row">
+									<div class="12u 12u$(small)">
+											<form method="post" action="">
+													<div class="row uniform 50%">
+															<div class="6u 12u$(xsmall)"><input type="text" name="name" id="name" placeholder="Event" /></div> 
+															<li style="list-style: none"><input type="submit" onclick="searchEvent()" value="Search" /></li>
+													</div>
+											</form>
+									</div>
+							</div>
+								<script>                        
+										function searchEvent() {
+											var busqueda = document.getElementById("name").value;
+
+											if (busqueda === "") {
+												window.location.replace("");
+											} else {
+												var url = "?search=" + busqueda;
+												//console.log (url)
+												window.location.replace(url);
+											}
+											
+										}
+								</script> 
+								<div id="demo">
+								</div>
+					</section>
+                    
+
+				<!-- Two -->
+					<section id="two">
+						<h2>Upcoming Events</h2>
+						<div class="row" id="catalog">
+						</div>
+					</section>
+					<script>
+						const EVENT = 
+							`<article class="6u 12u$(xsmall) work-item">
+								<span class="inner-article">
+								<a href="{2}" class="image fit thumb"><img src="{2}" alt="" /></a>
+								<id style="display: none">{5}</id>
+								<h3 id='event-{3}'>{0} : {4}</h3>
+								<p>{1}</p>
+								</span>
+							</article>`;
+
+						html = "";
+
+						var query = window.location.search.substring(1);
+						var qs = parse_query_string(query);
+						console.log (qs);
+
+						if (qs.search !== undefined) {
+							fetch(`http://localhost:8080/filtrar/${qs.search}`, {
+									method: 'GET',
+							}).then(res => res.json()
+							).then(events => {
+								id = 0;
+								events = events.filter (e => e.estatus === 1);
+								events.forEach ((e) => {
+									html += String.format (EVENT, e.nombre, e.descripcion, e.poster, id, e.fecha.split (" ")[0], e._id);
+								});
+
+								get ("catalog").innerHTML = html;
+								init ("#two");
+							}).catch( err => {
+								html = "<h4>No results found</h4>";
+								get ("catalog").innerHTML = html;
+							})
+						} else {
+							id = 0;
+							fetch(`http://localhost:8080/eventos/`, {
+								method: 'GET',
+							}).then(res => res.json()
+							).then(events => {
+								events = events.filter (e => e.estatus === 1);
+								events.forEach ((e) => {
+									html += String.format (EVENT, e.nombre, e.descripcion, e.poster, id, e.fecha.split (" ")[0], e._id);
+								});
+
+								get ("catalog").innerHTML = html;
+								init ("#two");
+							}).catch( err => {
+								console.log(err);
+							})  
+						}
+					</script>
+			</div>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<ul class="icons">
+						<li><a href="https://github.com/Philip-Scott/catalog-front" class="icon fa-github"><span class="label">Github</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li><a id="login-button" href="http://html5up.net">Logout:</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="/assets/js/jquery.min.js"></script>
+			<script src="/assets/js/jquery.poptrox.min.js"></script>
+			<script src="/assets/js/skel.min.js"></script>
+			<script src="/assets/js/util.js"></script>
+		<script src="/assets/js/auth.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="/assets/js/main.js"></script>
+	</body>
+</html>
