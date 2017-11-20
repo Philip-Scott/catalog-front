@@ -63,7 +63,7 @@ window.addEventListener('load', function() {
         return new Date().getTime() < expiresAt;
     }
 
-    userProfile;
+    var userProfile;
     handleAdmin = function handleAdmin() {
       if (!userProfile) {
         var accessToken = localStorage.getItem('access_token');
