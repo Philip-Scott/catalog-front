@@ -4,7 +4,7 @@ function editorAction () {
         editEvent (id);
     } else {
         console.log ("create");
-        createNewEvent (); 
+        createNewEvent ();
     }
 }
 
@@ -22,7 +22,7 @@ function createNewEvent() {
     newEvent.capacidad = Number (get("capacidad").value);
     var jsonString= JSON.stringify(newEvent);
 
-    fetch("http://localhost:8080/crearEvento", {
+    fetch("http://ec2-34-215-220-146.us-west-2.compute.amazonaws.com:8080/crearEvento", {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ function editEvent(id) {
     newEvent._id = id;
     var jsonString= JSON.stringify(newEvent);
 
-    fetch("http://localhost:8080/editarEvento", {
+    fetch("http://ec2-34-215-220-146.us-west-2.compute.amazonaws.com:8080/editarEvento", {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
