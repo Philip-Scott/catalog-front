@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>Strata by HTML5 UP</title>
+		<title>Untitled Ticket App - Edit</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
@@ -9,7 +9,7 @@
 		<script src="/assets/js/libphilip.js"></script>
 		<script src="/assets/js/jquery.min.js"></script>
 		<script src="https://cdn.auth0.com/js/auth0/8.10.1/auth0.min.js"></script>
-		
+
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
 	<body id="top">
@@ -31,7 +31,7 @@
 					<div class="row">
 						<div class="8u 12u$(small)">
 							<form method="post" action="#">
-								<div class="row uniform 50%" id="fourm">									
+								<div class="row uniform 50%" id="fourm">
 									<div class="6u 12u$(xsmall)"><input type="text" name="name" id="nombre" placeholder="Nombre del Evento" /></div>
 									<div class="6u 12u$(xsmall)">
 										<select id="categoria">
@@ -72,7 +72,7 @@
 					$('#delete').bind("click",function(){
 							get("delete").innerHTML = "Click me again to delete";
 							if (clicked_again) {
-								fetch(`http://localhost:8080/eliminar/${id}`, {
+								fetch(`http://ec2-34-215-220-146.us-west-2.compute.amazonaws.com:8080/eliminar/${id}`, {
 										method: 'DELETE',
 								})
 
@@ -83,7 +83,7 @@
 
 					console.log ("valid?");
 
-					fetch(`http://localhost:8080/eventoid/${id}`, {
+					fetch(`http://ec2-34-215-220-146.us-west-2.compute.amazonaws.com:8080/eventoid/${id}`, {
 							method: 'GET',
 					}).then(res => res.json()
 					).then(e => {
@@ -97,9 +97,9 @@
 						get("artista").value = e.artista;
 						get("precio").value = e.precio;
 						get("capacidad").value = e.capacidad;
-						
+
 						var jsonString= JSON.stringify(e);
-						// TODO: Fill data 
+						// TODO: Fill data
 					}).catch( err => {
 						html = "<h4>Invalid ID</h4>"
 						get ("three").innerHTML = html;
@@ -120,7 +120,7 @@
 			</footer>
 
 		<!-- Scripts -->
-			
+
 			<script src="/assets/js/jquery.poptrox.min.js"></script>
 			<script src="/assets/js/skel.min.js"></script>
 			<script src="/assets/js/util.js"></script>

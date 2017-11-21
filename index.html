@@ -1,14 +1,14 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>Strata by HTML5 UP</title>
+		<title>Untitled Ticket App</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<script src="assets/js/libphilip.js"></script>
-		<script src="https://cdn.auth0.com/js/auth0/8.10.1/auth0.min.js"></script>		
-		<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">				
+		<script src="https://cdn.auth0.com/js/auth0/8.10.1/auth0.min.js"></script>
+		<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
 	</head>
 	<body id="top">
@@ -30,13 +30,13 @@
 									<div class="12u 12u$(small)">
 											<form method="post" action="">
 													<div class="row uniform 50%">
-															<div class="6u 12u$(xsmall)"><input type="text" name="name" id="name" placeholder="Event" /></div> 
+															<div class="6u 12u$(xsmall)"><input type="text" name="name" id="name" placeholder="Event" /></div>
 															<li style="list-style: none"><input type="submit" onclick="searchEvent()" value="Search" /></li>
 													</div>
 											</form>
 									</div>
 							</div>
-								<script>                        
+								<script>
 										function searchEvent() {
 											var busqueda = document.getElementById("name").value;
 
@@ -47,13 +47,13 @@
 												//console.log (url)
 												window.location.replace(url);
 											}
-											
+
 										}
-								</script> 
+								</script>
 								<div id="demo">
 								</div>
 					</section>
-                    
+
 
 				<!-- Two -->
 					<section id="two">
@@ -62,7 +62,7 @@
 						</div>
 					</section>
 					<script>
-						const EVENT = 
+						const EVENT =
 							`<article class="6u 12u$(xsmall) work-item">
 								<span class="inner-article">
 								<a href="{2}" class="image fit thumb"><img src="{2}" alt="" /></a>
@@ -79,12 +79,12 @@
 						console.log (qs);
 
 						if (qs.search !== undefined) {
-							fetch(`http://localhost:8080/evento/${qs.search}`, {
+							fetch(`http://ec2-34-215-220-146.us-west-2.compute.amazonaws.com/evento/${qs.search}`, {
 									method: 'GET',
 							}).then(res => res.json()
 							).then(e => {
 								html += String.format (EVENT, e.nombre, e.descripcion, e.poster, 1, e.fecha.split (" ")[0], e._id);
-								
+
 								get ("catalog").innerHTML = html;
 								init ("#two");
 							}).catch( err => {
@@ -93,7 +93,7 @@
 							})
 						} else {
 							id = 0;
-							fetch(`http://localhost:8080/eventos/`, {
+							fetch(`http://ec2-34-215-220-146.us-west-2.compute.amazonaws.com/eventos/`, {
 								method: 'GET',
 							}).then(res => res.json()
 							).then(events => {
@@ -106,7 +106,7 @@
 								init ("#two");
 							}).catch( err => {
 								console.log(err);
-							})  
+							})
 						}
 					</script>
 			</div>
