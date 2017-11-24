@@ -28,7 +28,7 @@
 					<section id="one">
 							<div class="row">
 									<div class="12u 12u$(small)">
-											<form method="post" action="">
+											<form id="search">
 													<div class="row uniform 50%">
 															<div class="6u 12u$(xsmall)"><input type="text" name="name" id="name" placeholder="Event" /></div>
 															<li style="list-style: none"><input type="submit" onclick="searchEvent()" value="Search" /></li>
@@ -42,13 +42,13 @@
 
 											if (busqueda === "") {
 												window.location.replace("");
-											} else {
-												var url = "?search=" + busqueda;
-												//console.log (url)
-												window.location.replace(url);
 											}
-
 										}
+
+										$('#search').submit(function () {
+											searchEvent();
+											return false;
+										});
 								</script>
 								<div id="demo">
 								</div>
@@ -78,8 +78,8 @@
 						var qs = parse_query_string(query);
 						console.log (qs);
 
-						if (qs.search !== undefined) {
-							fetch(`http://ec2-34-215-220-146.us-west-2.compute.amazonaws.com:8080/evento/${qs.search}`, {
+						if (qs.name !== undefined) {
+							fetch(`http://ec2-34-215-220-146.us-west-2.compute.amazonaws.com:8080/evento/${qs.name.split('+').join('%20')}`, {
 									method: 'GET',
 							}).then(res => res.json()
 							).then(e => {
